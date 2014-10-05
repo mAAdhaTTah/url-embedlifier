@@ -18,7 +18,7 @@
  * @since      1.0.0
  * @package    URL_Embedlifier
  * @subpackage URL_Embedlifier/includes
- * @author     Your Name <email@example.com>
+ * @author     James <jamesorodig@gmail.com>
  */
 class URL_Embedlifier_Activator {
 

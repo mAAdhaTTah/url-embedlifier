@@ -3,7 +3,7 @@
 /**
  * The public-facing functionality of the plugin.
  *
- * @link       http://jamesdigioia.com/url-embedlifier
+ * @link       http://jamesdigioia.com/url-embedlifier/
  * @since      1.0.0
  *
  * @package    URL_Embedlifier

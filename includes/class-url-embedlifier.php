@@ -40,6 +40,24 @@ class URL_Embedlifier {
 	protected $loader;
 
 	/**
+	 * The class respsponsible for the dashboard-specific functionality of the plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   public
+	 * @var      Plugin_Name_Admin    $admin    Controls all the admin functionality for the plugin.
+	 */
+	public $admin;
+
+	/**
+	 * The class respsponsible for the public-facing functionality of the plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   public
+	 * @var      Plugin_Name_Public    $public    Controls all the public functionality for the plugin.
+	 */
+	public $public;
+
+	/**
 	 * The unique identifier of this plugin.
 	 *
 	 * @since    1.0.0
@@ -150,10 +168,10 @@ class URL_Embedlifier {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new URL_Embedlifier_Admin( $this->get_plugin_name(), $this->get_version() );
+		$this->admin = new URL_Embedlifier_Admin( $this->get_plugin_name(), $this->get_version() );
 
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $this->admin, 'enqueue_styles' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $this->admin, 'enqueue_scripts' );
 
 	}
 
@@ -166,10 +184,10 @@ class URL_Embedlifier {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new URL_Embedlifier_Public( $this->get_plugin_name(), $this->get_version() );
+		$this->public = new URL_Embedlifier_Public( $this->get_plugin_name(), $this->get_version() );
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $this->public, 'enqueue_styles' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $this->public, 'enqueue_scripts' );
 
 	}
 

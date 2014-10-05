@@ -22,9 +22,9 @@
  * @since      1.0.0
  * @package    URL_Embedlififer
  * @subpackage URL_Embedlififer/includes
- * @author     Your Name <email@example.com>
+ * @author     James DiGioia <jamesorodig@gmail.com>
  */
-class URL_Embedlififer_i18n {
+class URL_Embedlifier_i18n {
 
 	/**
 	 * The domain specified for this plugin.

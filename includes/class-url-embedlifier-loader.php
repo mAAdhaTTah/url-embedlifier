@@ -97,7 +97,7 @@ class URL_Embedlifier_Loader {
 	 */
 	private function add( $hooks, $hook, $component, $callback, $priority, $accepted_args ) {
 
-		$hooks[get_class($component) . "_" . $callback] = array(
+		$hooks[] = array(
 			'hook'          => $hook,
 			'component'     => $component,
 			'callback'      => $callback,
@@ -116,11 +116,11 @@ class URL_Embedlifier_Loader {
 	 */
 	public function run() {
 
-		foreach ( apply_filters( 'url_embedlifier_filters', $this->filters ) as $hook ) {
+		foreach ( $this->filters as $hook ) {
 			add_filter( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
 		}
 
-		foreach ( apply_filters( 'url_embedlifier_actions', $this->actions ) as $hook ) {
+		foreach ( $this->actions as $hook ) {
 			add_action( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
 		}
 

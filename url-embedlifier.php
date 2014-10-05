@@ -8,7 +8,7 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              http://example.com
+ * @link              http://jamesdigioia.com/url-embedlifier/
  * @since             1.0.0
  * @package           URL_Embedlifier
  *
