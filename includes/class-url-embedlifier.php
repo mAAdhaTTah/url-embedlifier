@@ -172,6 +172,7 @@ class URL_Embedlifier {
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $this->admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $this->admin, 'enqueue_scripts' );
+		$this->loader->add_action( 'edit_form_after_title', $this->admin, 'display_url_box' );
 
 	}
 

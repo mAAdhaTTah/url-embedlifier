@@ -100,4 +100,22 @@ class URL_Embedlifier_Admin {
 
 	}
 
+	/**
+	 * Render the URL metabox after the title.
+	 *
+	 * @param  WP_Post $post Current post object
+	 */
+	public function display_url_box( $post ) {
+		$url = esc_url( get_post_meta( $post->ID, 'embedlified_url', true ) ); ?>
+		<table>
+			<tr>
+				<td>
+					<label for="url" style="display: none;">Embedlify URL</label>
+					<input type="text" name="url" size="80" value="<?php echo $url; ?>" style="padding: 5px 8px; font-size: 1.7em; line-height: 100%; height: 1.7em; width: 100%; outline: none; margin: 0; background-color: #fff;" placeholder="Embedlify URL" />
+				</td>
+			</tr>
+		</table>
+		<?php
+	}
+
 }
