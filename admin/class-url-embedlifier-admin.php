@@ -106,16 +106,104 @@ class URL_Embedlifier_Admin {
 	 * @param  WP_Post $post Current post object
 	 */
 	public function display_url_box( $post ) {
-		$url = esc_url( get_post_meta( $post->ID, 'embedlified_url', true ) ); ?>
+		$embedlified_url = esc_url( get_post_meta( $post->ID, 'embedlified_url', true ) ); ?>
 		<table>
 			<tr>
 				<td>
-					<label for="url" style="display: none;">Embedlify URL</label>
-					<input type="text" name="url" size="80" value="<?php echo $url; ?>" style="padding: 5px 8px; font-size: 1.7em; line-height: 100%; height: 1.7em; width: 100%; outline: none; margin: 0; background-color: #fff;" placeholder="Embedlify URL" />
+					<label for="embedlified_url" style="display: none;">_e( "Embedlify URL" )</label>
+					<input type="text" name="embedlified_url" size="80" value="<?php echo $embedlified_url; ?>" style="padding: 5px 8px; font-size: 1.7em; line-height: 100%; height: 1.7em; width: 100%; outline: none; margin: 0; background-color: #fff;" placeholder="Embedlify URL" />
 				</td>
 			</tr>
 		</table>
 		<?php
+	}
+
+	/**
+	 * Saves the URL passed from the metabox to the post meta
+	 *
+	 * @param  int $post_id ID of the currently saving post
+	 */
+	public function save_url( $post_id ) {
+		if ( array_key_exists( 'embedlified_url', $_POST ) && $_POST['embedlified_url'] !== '' && $_POST['embedlified_url'] !== get_post_meta( $post_id, 'embedlified_url', true) ) {
+			$url = esc_url_raw( $_POST['embedlified_url'] );
+
+			$result = update_post_meta( $post_id, 'embedlified_url', $url );
+			if ( ! $result ) {
+				// @todo display error message
+				return;
+			}
+
+			$this->get_embedly_metadata( $post_id, $url );
+		}
+	}
+
+	/**
+	 * Gets the Embedly metadata for a given url
+	 * and saves it to the metadata of the post_id
+	 *
+	 * @param  int    $post_id ID of the post to save metadata to
+	 * @param  string $url     URL to get Embedly data for
+	 */
+	public function get_embedly_metadata( $post_id, $url ) {
+		$api = new Embedly\Embedly( array(
+			'key' => get_option('embedly_key')
+		) );
+
+		$response = $api->oembed( $url );
+		// @todo check if error object
+
+		// Turns the response object into an array
+		$oembed = get_object_vars( $response );
+
+		foreach ( $oembed as $key => $value ) {
+			if ( $key === 'thumbnail_url' ) {
+				// Is there a description we can pass in here?
+				$result = $this->sideload_image( $value, $post_id );
+				if ( is_wp_error( $result ) ) {
+					// @todo error checking
+				}
+			}
+
+			update_post_meta( $post_id, 'embedlified_' . $key, $value );
+		}
+	}
+
+	/**
+	 * Downloads and sets an image to the post_id's featured image
+	 * @param  string $file    URL of the image to download
+	 * @param  int    $post_id ID of the post to save thumbnail to
+	 * @param  string $desc    Description of the image
+	 * @return WP_Error|true   WP_Error on failure, true of success
+	 */
+	private function sideload_image( $file, $post_id, $desc = null ) {
+		if ( ! empty($file) ) {
+			// Download file to temp location
+			$tmp = download_url( $file );
+
+			// Set variables for storage
+			// fix file filename for query strings
+			preg_match( '/[^\?]+\.(jpe?g|jpe|gif|png)\b/i', $file, $matches );
+			$file_array['name'] = basename($matches[0]);
+			$file_array['tmp_name'] = $tmp;
+
+			// If error storing temporarily, unlink
+			if ( is_wp_error( $tmp ) ) {
+				@unlink($file_array['tmp_name']);
+				$file_array['tmp_name'] = '';
+			}
+
+			// do the validation and storage stuff
+			$id = media_handle_sideload( $file_array, $post_id, $desc );
+			// If error storing permanently, unlink
+			if ( is_wp_error($id) ) {
+				@unlink($file_array['tmp_name']);
+				return $id;
+			}
+
+			update_post_meta( $post_id, '_thumbnail_id', $id );
+
+			return true;
+		}
 	}
 
 }

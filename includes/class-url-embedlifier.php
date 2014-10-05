@@ -173,6 +173,7 @@ class URL_Embedlifier {
 		$this->loader->add_action( 'admin_enqueue_scripts', $this->admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $this->admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'edit_form_after_title', $this->admin, 'display_url_box' );
+		$this->loader->add_action( 'save_post', $this->admin, 'save_url' );
 
 	}
 
@@ -189,6 +190,7 @@ class URL_Embedlifier {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $this->public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $this->public, 'enqueue_scripts' );
+		$this->loader->add_filter( 'the_content', $this->public, 'add_embedly_to_content' );
 
 	}
 
