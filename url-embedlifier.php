@@ -53,6 +53,11 @@ register_deactivation_hook( __FILE__, array( 'URL_Embedlifier_Deactivator', 'dea
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-url-embedlifier.php';
 
 /**
+ * The Embedly API package, v5.4
+ */
+require_once plugin_dir_path( __FILE__ ) . 'lib/Embedly.php';
+
+/**
  * Begins execution of the plugin.
  *
  * Since everything within the plugin is registered via hooks,
