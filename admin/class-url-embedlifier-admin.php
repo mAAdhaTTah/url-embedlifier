@@ -146,7 +146,7 @@ class URL_Embedlifier_Admin {
 	 */
 	public function get_embedly_metadata( $post_id, $url ) {
 		$api = new Embedly\Embedly( array(
-			'key' => get_option('embedly_key')
+			'key' => cmb_get_option($this->name, 'urle_embedly_key')
 		) );
 
 		$response = $api->oembed( $url );
@@ -204,6 +204,50 @@ class URL_Embedlifier_Admin {
 
 			return true;
 		}
+	}
+
+	/**
+	 * Register the administration menu for this plugin into the WordPress Dashboard menu.
+	 *
+	 * @since    0.1.0
+	 */
+	public function add_plugin_admin_menu() {
+
+		$this->plugin_screen_hook_suffix = add_options_page(
+			__( 'URL Embedlifier Settings', $this->name ),
+			__( 'URL Embedlifier', $this->name ),
+			'edit_posts',
+			$this->name,
+			array( $this, 'display_plugin_admin_page' )
+		);
+
+	}
+
+	/**
+	 * Render the settings page for this plugin.
+	 *
+	 * @since    0.1.0
+	 */
+	public function display_plugin_admin_page() {
+
+		include_once( plugin_dir_path( __FILE__ ) . 'partials/settings-page.php' );
+
+	}
+
+	/**
+	 * Add settings action link to the plugins page.
+	 *
+	 * @since    0.1.0
+	 */
+	public function add_action_links( $links ) {
+
+		return array_merge(
+			array(
+				'settings' => '<a href="' . admin_url( 'options-general.php?page=' . $this->name ) . '">' . __( 'Settings', $this->name ) . '</a>'
+			),
+			$links
+		);
+
 	}
 
 }

@@ -55,7 +55,22 @@ require_once plugin_dir_path( __FILE__ ) . 'includes/class-url-embedlifier.php';
 /**
  * The Embedly API package, v5.4
  */
-require_once plugin_dir_path( __FILE__ ) . 'lib/Embedly.php';
+require_once plugin_dir_path( __FILE__ ) . 'lib/Embedly/Embedly.php';
+
+/**
+ * This is the suggested way for loading cmb
+ */
+add_action( 'init', 'cmb_initialize_cmb_meta_boxes', 9999 );
+/**
+ * Initialize the metabox class.
+ */
+function cmb_initialize_cmb_meta_boxes() {
+
+	if ( ! class_exists( 'cmb_Meta_Box' ) ) {
+		require_once plugin_dir_path( __FILE__ ) . 'lib/cmb/init.php';
+	}
+
+}
 
 /**
  * Begins execution of the plugin.
