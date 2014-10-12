@@ -27,9 +27,9 @@ class URL_Embedlifier_Admin {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      string    $name    The ID of this plugin.
+	 * @var      string    $plugin_name    The ID of this plugin.
 	 */
-	private $name;
+	private $plugin_name;
 
 	/**
 	 * The version of this plugin.
@@ -44,12 +44,12 @@ class URL_Embedlifier_Admin {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @var      string    $name       The name of this plugin.
+	 * @var      string    $plugin_name       The name of this plugin.
 	 * @var      string    $version    The version of this plugin.
 	 */
-	public function __construct( $name, $version ) {
+	public function __construct( $plugin_name, $version ) {
 
-		$this->name = $name;
+		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 
 	}
@@ -61,19 +61,7 @@ class URL_Embedlifier_Admin {
 	 */
 	public function enqueue_styles() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in URL_Embedlifier_Admin_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The URL_Embedlifier_Admin_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
-		wp_enqueue_style( $this->name, plugin_dir_url( __FILE__ ) . 'css/plugin-name-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/admin.css', array(), $this->version, 'all' );
 
 	}
 
@@ -84,19 +72,7 @@ class URL_Embedlifier_Admin {
 	 */
 	public function enqueue_scripts() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in URL_Embedlifier_Admin_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The URL_Embedlifier_Admin_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
-		wp_enqueue_script( $this->name, plugin_dir_url( __FILE__ ) . 'js/plugin-name-admin.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/admin.js', array( 'jquery' ), $this->version, false );
 
 	}
 
@@ -146,7 +122,7 @@ class URL_Embedlifier_Admin {
 	 */
 	public function get_embedly_metadata( $post_id, $url ) {
 		$api = new Embedly\Embedly( array(
-			'key' => cmb_get_option($this->name, 'urle_embedly_key')
+			'key' => cmb_get_option($this->plugin_name, 'urle_embedly_key')
 		) );
 
 		$response = $api->oembed( $url );
@@ -214,10 +190,10 @@ class URL_Embedlifier_Admin {
 	public function add_plugin_admin_menu() {
 
 		$this->plugin_screen_hook_suffix = add_options_page(
-			__( 'URL Embedlifier Settings', $this->name ),
-			__( 'URL Embedlifier', $this->name ),
+			__( 'URL Embedlifier Settings', $this->plugin_name ),
+			__( 'URL Embedlifier', $this->plugin_name ),
 			'edit_posts',
-			$this->name,
+			$this->plugin_name,
 			array( $this, 'display_plugin_admin_page' )
 		);
 
@@ -243,7 +219,7 @@ class URL_Embedlifier_Admin {
 
 		return array_merge(
 			array(
-				'settings' => '<a href="' . admin_url( 'options-general.php?page=' . $this->name ) . '">' . __( 'Settings', $this->name ) . '</a>'
+				'settings' => '<a href="' . admin_url( 'options-general.php?page=' . $this->plugin_name ) . '">' . __( 'Settings', $this->plugin_name ) . '</a>'
 			),
 			$links
 		);
