@@ -15,17 +15,17 @@
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
 <div class="wrap">
-	<h2><?php _e( "URL Embedlifier", $this->name ); ?></h2>
+	<h2><?php _e( "URL Embedlifier", $this->plugin_name ); ?></h2>
 	<?php cmb_metabox_form( array(
 		'id'         => 'option_metabox',
-		'show_on'    => array( 'key' => 'options-page', 'value' => array( $this->name, ), ),
+		'show_on'    => array( 'key' => 'options-page', 'value' => array( $this->plugin_name, ), ),
 		'show_names' => true,
 		'fields'     => array(
 			array(
-				'name' => __( 'Embedly API Key', $this->name ),
+				'name' => __( 'Embedly API Key', $this->plugin_name ),
 				'id'   => 'urle_embedly_key',
 				'type' => 'text_medium',
 			)
 		)
-	), $this->name ); ?>
+	), $this->plugin_name ); ?>
 </div>
