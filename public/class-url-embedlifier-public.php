@@ -77,12 +77,19 @@ class URL_Embedlifier_Public {
 	}
 
 	public function add_embedly_to_content( $content ) {
-		global $post;
-
-		if ( $url = get_post_meta( $post->ID, 'embedlified_url' , true ) ) {
+		if ( get_post_meta( get_the_ID(), 'embedlified_url' , true ) ) {
 			ob_start();
-			include_once plugin_dir_path( __FILE__ ) . 'partials/url-embedlifier-public-display.php';
 
+			if ( get_post_meta( get_the_ID(), 'embedlified_type', true ) === 'link' ) {
+				include_once plugin_dir_path( __FILE__ ) . 'partials/link-display.php';
+			} elseif ( get_post_meta( get_the_ID(), 'embedlified_type', true ) === 'video' ) {
+				include_once plugin_dir_path( __FILE__ ) . 'partials/video-display.php';
+			} else {
+				include_once plugin_dir_path( __FILE__ ) . 'partials/default-display.php';
+			}
+
+			$content .= ob_get_contents();
+			ob_end_clean();
 		}
 		return $content;
 	}
