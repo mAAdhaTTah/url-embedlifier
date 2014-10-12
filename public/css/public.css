@@ -1,4 +1,100 @@
-/**
- * All of the CSS for your public-facing functionality should be
- * included in this file.
- */
+iframe {
+  max-width: 100%;
+}
+.mceItemEmbedly {
+  max-width: 100% !important;
+}
+.mceItemEmbedly .embedly {
+  margin: 10px 10px 10px 0;
+  padding: 5px;
+  zoom: 1;
+}
+.mceItemEmbedly .embedly * {
+  margin: 0;
+  padding: 0;
+}
+.mceItemEmbedly .embedly:after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+.mceItemEmbedly .embedly a img {
+  border: none;
+}
+.mceItemEmbedly .embedly p {
+  font-size: 1em;
+  line-height: 1.3em;
+  margin-bottom: 1em;
+}
+.mceItemEmbedly .embedly blockquote {
+  margin: 0.5em 1.5em;
+  font-weight: normal;
+}
+.mceItemEmbedly .embedly .embedly-title {
+  display: block;
+  font-size: 1.2em;
+  line-height: 1.1em;
+  margin-bottom: 0.5em;
+  font-weight: bold;
+}
+.mceItemEmbedly .embedly .embedly-thumbnail-small {
+  float: left;
+  max-width: 35%;
+  margin-bottom: 1em;
+  margin-right: 18px;
+}
+.mceItemEmbedly .embedly .embedly-thumbnail-small img {
+  max-width: 100%;
+}
+.mceItemEmbedly .embedly .embedly-thumbnail img {
+  max-width: 100%;
+}
+.mceItemEmbedly .embedly .embedly-video,
+.mceItemEmbedly .embedly .embedly-audio {
+  max-width: 100%;
+}
+.mceItemEmbedly .embedly .embedly-favicon {
+  margin: 0 3px;
+  position: relative;
+  top: 4px;
+  height: 16px;
+  width: 16px;
+}
+.mceItemEmbedly .embedly .media-attribution {
+  font-size: 0.9em;
+  clear: left;
+}
+.mceItemEmbedly .embedly .embedly-link {
+  margin: 7px 0 0;
+  font-size: 0.9em;
+  padding: 0;
+  display: block;
+  text-align: right;
+}
+.mceItemEmbedly .embedly .embedly-powered {
+  width: 69px;
+  height: 16px;
+  max-width: inherit;
+  float: right;
+}
+.mceItemEmbedly .embedly .embedly-powered display:block img {
+  width: auto;
+  height: auto;
+}
+.mceItemEmbedly .embedly .embedly-clear {
+  clear: both;
+  height: 0;
+}
+.mceItemEmbedly .embedly img {
+  max-width: 100%;
+  max-height: 100%;
+}
+.mceItemEmbedly .embedly .thumb {
+  width: auto;
+  height: auto;
+  max-width: 35%;
+  float: left;
+}
