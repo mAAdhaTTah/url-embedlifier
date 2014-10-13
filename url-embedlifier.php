@@ -61,7 +61,9 @@ require_once plugin_dir_path( __FILE__ ) . 'includes/class-url-embedlifier.php';
 /**
  * The Embedly API package, v5.4
  */
-require_once plugin_dir_path( __FILE__ ) . 'lib/Embedly/Embedly.php';
+if ( ! class_exists( 'Embedly\Embedly' ) ) {
+	require_once plugin_dir_path( __FILE__ ) . 'lib/Embedly/Embedly.php';
+}
 
 /**
  * This is the suggested way for loading cmb
