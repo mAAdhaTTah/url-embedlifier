@@ -11,35 +11,38 @@
  * @package    URL_Embedlifier
  * @subpackage URL_Embedlifier/public/partials
  */
+
+// Set the thumbnail URL
+if ( has_post_thumbnail() ) {
+	$thumb_src = wp_get_attachment_image_src( get_post_thumbnail_id(), 'full' );
+	$thumb_url = $thumb_src[0];
+} else {
+	$thumb_url = get_post_meta( get_the_ID(), 'embedlified_thumbnail_url', true );
+}
 ?>
+<div class="url-embedlified">
 
-<!-- This file should primarily consist of HTML with a little bit of PHP. -->
+	<div class="url-embedlified-title">
+		<h1><a href="<?php echo get_post_meta( get_the_ID(), 'embedlified_url' , true ); ?>" title="<?php echo get_post_meta( get_the_ID(), 'embedlified_title', true ); ?>"><?php echo get_post_meta( get_the_ID(), 'embedlified_title', true ); ?></a></h1>
+	</div>
 
-<div class="mceItemEmbedly">
-	<div class="embedly">
-		<?php if ( has_post_thumbnail() ) : ?>
-			<?php the_post_thumbnail( get_the_ID(), 'full', array( 'class' => 'thumb embedly-thumbnail-small' ) );?>
-		<?php else: ?>
-			<img src="<?php echo get_post_meta( get_the_ID(), 'embedlified_thumbnail_url', true ); ?>" class="thumb embedly-thumbnail-small" />
-		<?php endif; ?>
-		<time class="published" datetime="<?php the_time('c'); ?>">
-			<?php the_date(); ?>
-		</time>
-		<div class="embedly-content">
-			<?php echo get_post_meta( get_the_ID(), 'embedlified_description', true ); ?>
+	<div class="url-embedlified-content">
+		<img src="<?php echo $thumb_url; ?>" class="embedly-thumbnail-small" />
+		<time class="published" datetime="<?php the_time('c'); ?>"><?php the_date(); ?></time>
+		<p><?php echo get_post_meta( get_the_ID(), 'embedlified_description', true ); ?></p>
+	</div>
+
+	<div class="url-embedlified-clear"></div>
+
+	<div class="url-embedlified-footer">
+		<div class="embedly-powered">
+			<a target="_blank" href="http://embed.ly?src=anywhere" title="Powered by Embedly"><img src="http://static.embed.ly/images/logos/embedly-powered-small-light.png" alt="Embedly Powered" /></a>
+		</div>
+		<div class="url-embedlified-media-attribution">
+			<span>via </span><a href="<?php echo get_post_meta( get_the_ID(), 'embedlified_provider_url', true ); ?>" class="media-attribution-link" target="_blank"><?php echo get_post_meta( get_the_ID(), 'embedlified_provider_name', true ); ?></a>
 		</div>
 	</div>
-	<div class="embedly-clear"></div>
-	<div class="embedly-powered">
-		<a target="_blank" href="http://embed.ly?src=anywhere" title="Powered by Embedly">
-			<img src="http://static.embed.ly/images/logos/embedly-powered-small-light.png" alt="Embedly Powered" />
-		</a>
-	</div>
-	<div class="media-attribution">
-		<span>via </span>
-		<a href="<?php echo get_post_meta( get_the_ID(), 'embedlified_provider_url', true ); ?>" class="media-attribution-link" target="_blank">
-			<?php echo get_post_meta( get_the_ID(), 'embedlified_provider_name', true ); ?>
-		</a>
-	</div>
-	<div class="embedly-clear"></div>
+
+	<div class="clear"></div>
+
 </div>
