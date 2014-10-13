@@ -100,16 +100,28 @@ class URL_Embedlifier_Admin {
 	 * @param  int $post_id ID of the currently saving post
 	 */
 	public function save_url( $post_id ) {
-		if ( array_key_exists( 'embedlified_url', $_POST ) && $_POST['embedlified_url'] !== '' && $_POST['embedlified_url'] !== get_post_meta( $post_id, 'embedlified_url', true) ) {
+		if (
+			array_key_exists( 'embedlified_url', $_POST ) && $_POST['embedlified_url'] !== '' &&
+			( $_POST['embedlified_url'] !== get_post_meta( $post_id, 'embedlified_url', true )
+				|| 'yes' === get_post_meta( $post_id, 'embedlify_key_missing', true ) )
+		) {
 			$url = esc_url_raw( $_POST['embedlified_url'] );
 
-			$result = update_post_meta( $post_id, 'embedlified_url', $url );
-			if ( ! $result ) {
-				// @todo display error message
-				return;
+			if ( $url !== get_post_meta( $post_id, 'embedlified_url', true ) ) {
+				$result = update_post_meta( $post_id, 'embedlified_url', $url );
+				if ( ! $result ) {
+					// @todo display error message
+					return;
+				}
 			}
 
-			$this->get_embedly_metadata( $post_id, $url );
+			if ( cmb_get_option( $this->plugin_name, 'urle_embedly_key' ) ) {
+				$this->get_embedly_metadata( $post_id, $url );
+				$result = delete_post_meta( $post_id, 'embedlify_key_missing' );
+
+			} else {
+				update_post_meta( $post_id, 'embedlify_key_missing', 'yes' );
+			}
 		}
 	}
 
@@ -179,6 +191,22 @@ class URL_Embedlifier_Admin {
 			update_post_meta( $post_id, '_thumbnail_id', $id );
 
 			return true;
+		}
+	}
+
+	/**
+	 * Displays the admin error if we don't have an API key
+	 *
+	 * @return string HTML for the error notice
+	 * @since    0.1.0
+	 */
+	public function display_api_key_error() {
+		global $post;
+
+		if ( 'yes' === get_post_meta( $post->ID, 'embedlify_key_missing', true ) ) { ?>
+			<div class="error"><p>
+					You haven't added your Embedly API key. Please fill that in <a href="<?php echo admin_url( 'options-general.php?page=' . $this->plugin_name ); ?>">here</a>.
+			</p></div><?php
 		}
 	}
 
