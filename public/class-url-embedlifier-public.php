@@ -81,11 +81,11 @@ class URL_Embedlifier_Public {
 			ob_start();
 
 			if ( get_post_meta( get_the_ID(), 'embedlified_type', true ) === 'link' ) {
-				include_once plugin_dir_path( __FILE__ ) . 'partials/link-display.php';
+				include plugin_dir_path( __FILE__ ) . 'partials/link-display.php';
 			} elseif ( get_post_meta( get_the_ID(), 'embedlified_type', true ) === 'video' ) {
-				include_once plugin_dir_path( __FILE__ ) . 'partials/video-display.php';
+				include plugin_dir_path( __FILE__ ) . 'partials/video-display.php';
 			} else {
-				include_once plugin_dir_path( __FILE__ ) . 'partials/default-display.php';
+				include plugin_dir_path( __FILE__ ) . 'partials/default-display.php';
 			}
 
 			$content .= ob_get_contents();
